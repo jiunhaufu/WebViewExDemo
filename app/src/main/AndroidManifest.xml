@@ -7,10 +7,10 @@
     <uses-permission android:name="android.permission.CAPTURE_VIDEO_OUTPUT" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <!--html5-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <!-- html5 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -29,7 +29,8 @@
         <activity android:name=".WebViewActivity" />
         <activity android:name=".AdvancedWebViewActivity" />
         <activity android:name=".FullscreenWebViewActivity" />
-        <activity android:name=".Html5WebViewActivity"></activity>
+        <activity android:name=".Html5WebViewActivity" />
+        <activity android:name=".MyWebViewActivity"></activity>
     </application>
 
 </manifest>
