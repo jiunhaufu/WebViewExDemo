@@ -1,5 +1,6 @@
 package fu.alfie.com.webviewexdemo;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,6 +29,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         editText = (EditText) findViewById(R.id.editText);
+    }
+
+    public void onBrowserChromeClick(View view){
+        String inputUrl = String.valueOf(editText.getText());
+        Intent intent=new Intent(Intent.ACTION_VIEW,Uri.parse(inputUrl));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setPackage("com.android.chrome");
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException ex) {
+            intent.setPackage(null); //沒安裝chrome就用原生瀏覽器開啟
+            startActivity(intent);
+            Toast.makeText(this,"沒安裝chrome",Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void onWebViewClick(View view){
@@ -75,13 +90,12 @@ public class MainActivity extends AppCompatActivity {
                 //檢查是否安裝Chrome瀏覽器
                 PackageManager packageManager = getPackageManager();
                 if (isPackageInstalled("com.android.chrome",packageManager)){
-                    //開啟ChromeTab
-                    //compile 'com.android.support:customtabs:26.+'
-                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                    CustomTabsIntent customTabsIntent = builder
+                    //安裝ChromeTab   compile 'com.android.support:customtabs:26.+'
+                    CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
                             .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
                             .setShowTitle(true)
                             .build();
+                    customTabsIntent.intent.setPackage("com.android.chrome"); //指定使用chrome開啟
                     customTabsIntent.launchUrl(this, Uri.parse(inputUrl));
                 //引導安裝ChromeTab
                 }else{
@@ -142,13 +156,13 @@ public class MainActivity extends AppCompatActivity {
     private boolean isPackageInstalled(String packagename, PackageManager packageManager) {
         try {
             packageManager.getPackageInfo(packagename, 0);
-            if (packageManager.getApplicationEnabledSetting(packagename) == PackageManager.COMPONENT_ENABLED_STATE_ENABLED){
-                return true;
-            }else{
-                return false;
-            }
         } catch (PackageManager.NameNotFoundException e) {
-            return false;
+            return false; //沒安裝
+        }
+        if (packageManager.getApplicationEnabledSetting(packagename) == PackageManager.COMPONENT_ENABLED_STATE_DISABLED){
+            return false; //沒啟用
+        }else{
+            return true; //可呼叫
         }
     }
 }
