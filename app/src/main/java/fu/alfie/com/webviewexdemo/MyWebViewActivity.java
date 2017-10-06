@@ -62,7 +62,6 @@ public class MyWebViewActivity extends AppCompatActivity {
         }
         //webview環境設定
         webView = (WebView) findViewById(R.id.my_web_view);
-        WebSettings webSettings = webView.getSettings();
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setAllowFileAccess(true);
         if(Build.VERSION.SDK_INT >= 21){
@@ -176,13 +175,13 @@ public class MyWebViewActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, @NonNull KeyEvent event){
-        if(event.getAction() == KeyEvent.ACTION_DOWN){
-            switch(keyCode){
+    public boolean onKeyDown(int keyCode, @NonNull KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            switch (keyCode) {
                 case KeyEvent.KEYCODE_BACK:
-                    if(webView.canGoBack()){
+                    if (webView.canGoBack()) {
                         webView.goBack();
-                    }else{
+                    } else {
                         new AlertDialog.Builder(this)
                                 .setIcon(R.mipmap.ic_launcher_round)
                                 .setTitle("警告")
@@ -206,10 +205,5 @@ public class MyWebViewActivity extends AppCompatActivity {
             }
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig){
-        super.onConfigurationChanged(newConfig);
     }
 }
