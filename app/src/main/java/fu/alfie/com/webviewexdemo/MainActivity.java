@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                     .setPositiveButton("開啟網路設定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
+                            startActivity(new Intent(Settings.ACTION_SETTINGS));
                             dialogInterface.dismiss();
                         }
                     })
