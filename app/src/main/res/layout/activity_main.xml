@@ -30,7 +30,7 @@
         android:ems="10"
         android:hint="http://"
         android:inputType="textPersonName"
-        android:text="http://ttfit.cto.tw/register?mobile=0915628456"
+        android:text="http://192.168.0.127:8080/oauth_login"
         app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

@@ -67,6 +67,10 @@ public class MyWebViewActivity extends AppCompatActivity {
         if(Build.VERSION.SDK_INT >= 21){
             webView.getSettings().setMixedContentMode(0);
             webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        }else if(Build.VERSION.SDK_INT >= 19){
+            webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        }else if(Build.VERSION.SDK_INT < 19){
+            webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
         webView.setWebViewClient(new Callback());
         //取得待載入的網址連結
@@ -75,6 +79,32 @@ public class MyWebViewActivity extends AppCompatActivity {
         webView.loadUrl(inputUrl);
         //webview環境設定
         webView.setWebChromeClient(new WebChromeClient(){
+            //For Android 3.0+
+            public void openFileChooser(ValueCallback<Uri> uploadMsg){
+                uriValueCallback = uploadMsg;
+                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                i.addCategory(Intent.CATEGORY_OPENABLE);
+                i.setType("*/*");
+                MyWebViewActivity.this.startActivityForResult(Intent.createChooser(i,"File Chooser"), FCR);
+            }
+            // For Android 3.0+, above method not supported in some android 3+ versions, in such case we use this
+            public void openFileChooser(ValueCallback uploadMsg, String acceptType){
+                uriValueCallback = uploadMsg;
+                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                i.addCategory(Intent.CATEGORY_OPENABLE);
+                i.setType("*/*");
+                MyWebViewActivity.this.startActivityForResult(
+                        Intent.createChooser(i, "File Browser"),
+                        FCR);
+            }
+            //For Android 4.1+
+            public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture){
+                uriValueCallback = uploadMsg;
+                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                i.addCategory(Intent.CATEGORY_OPENABLE);
+                i.setType("*/*");
+                MyWebViewActivity.this.startActivityForResult(Intent.createChooser(i, "File Chooser"), MyWebViewActivity.FCR);
+            }
             //For Android 5.0+
             public boolean onShowFileChooser(
                     WebView webView, ValueCallback<Uri[]> filePathCallback,
